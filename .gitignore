@@ -1,0 +1,11 @@
+.vscode
+
+package-lock
+dist
+node_modules
+
+*.env
+.env
+
+venv
+__pycache__
