@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Proyecto de curso",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "webpack serve --mode=development",
+    "build": "webpack --mode=production"
+  },
   "author": "Sergio Majé",
   "license": "GPL-3.0",
   "dependencies": {
