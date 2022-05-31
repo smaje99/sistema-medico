@@ -6,6 +6,13 @@
   "scripts": {},
   "author": "Sergio Majé",
   "license": "GPL-3.0",
+  "dependencies": {
+    "normalize.css": "^8.0.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.3.0"
+  },
   "devDependencies": {
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
