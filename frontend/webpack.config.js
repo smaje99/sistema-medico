@@ -108,6 +108,9 @@ const optimization = {
 }
 
 const devServer = {
+    client: {
+        progress: true
+    },
     historyApiFallback: true,
     hot: true,
     open: true,
