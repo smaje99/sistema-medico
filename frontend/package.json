@@ -1,0 +1,9 @@
+{
+  "name": "sistema-medico",
+  "version": "1.0.0",
+  "description": "Proyecto de curso",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Sergio Majé",
+  "license": "GPL-3.0"
+}
