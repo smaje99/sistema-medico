@@ -39,4 +39,6 @@
 html {
     font-size: 62.5%;
     font-family: var(--body-font);
+    color: var(--prestige-blue);
+    background-color: var(--twinkle-blue);
 }
