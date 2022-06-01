@@ -10,6 +10,8 @@
     font-display: swap;
 }
 
+@import url('./rules.css');
+
 :root {
     --title-font: Montserrat;
     --body-font: Roboto;
