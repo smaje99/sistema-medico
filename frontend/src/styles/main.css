@@ -42,3 +42,17 @@ html {
     color: var(--prestige-blue);
     background-color: var(--twinkle-blue);
 }
+
+body::-webkit-scrollbar {
+    width: 1rem;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--saturated-sky);
+    border-radius: 1rem;
+}
+
+
+body::-webkit-scrollbar-track {
+    background-color: var(--twinkle-blue);
+}
