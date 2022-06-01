@@ -9,6 +9,8 @@ const AppRouter = () => (
         <Route path="/">
             <Route element={<PublicLayout />}>
                 <Route index element={<h1>Sistema Médico</h1>} />
+
+                <Route path="*" element={<h1>Página no encontrada</h1>} />
             </Route>
         </Route>
     </Routes>
