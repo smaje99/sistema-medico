@@ -15,11 +15,12 @@
     font-family: var(--title-font);
     color: var(--anti-flash-white);
     text-shadow: var(--shadow-text);
+    transition: text-shadow 0.4s ease;
 }
 
 .navbar__brand:hover,
 .navbar__nav--link:hover {
-    text-shadow: 0;
+    text-shadow: var(--shadow-text-hover);
 }
 
 .navbar__brand {

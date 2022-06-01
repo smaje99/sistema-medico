@@ -39,7 +39,7 @@
     --shadow-transparent: rgba(0, 0, 0, 0.5);
 
     --shadow-text: 0 .8rem .8rem var(--prestige-blue);
-    --shadow-text-hover: 0 .8rem .8rem var(--shadow-transparent)
+    --shadow-text-hover: 0 .8rem .8rem var(--shadow-transparent);
     --shadow-component: 0 .4rem .4rem var(--shadow-transparent);
 }
 
