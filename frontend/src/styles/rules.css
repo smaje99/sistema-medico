@@ -4,6 +4,7 @@
 
 .non-link {
     text-decoration: none;
+    color: var(--prestige-blue);
 }
 
 .vertical-separator {
