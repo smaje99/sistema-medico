@@ -36,11 +36,16 @@
     gap: 2rem;
 }
 
+.navbar__nav--active,
 .navbar__nav--link {
     display: inline-block;
     font-size: 12pt;
     font-weight: 600;
     letter-spacing: .08rem;
+}
+
+.navbar__nav--active {
+    color: var(--golden-sand)
 }
 
 .navbar__nav--login {

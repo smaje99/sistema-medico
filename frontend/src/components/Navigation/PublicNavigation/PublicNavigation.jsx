@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
+import Item from './Item';
+
 import routes from '@Helpers/routes';
 
 import './styles.css'
@@ -11,33 +13,17 @@ const PublicNavigation = () => {
                 Sistemas Médico
             </NavLink>
             <ul className="navbar__nav non-list">
-                <li className="navbar__nav--item">
-                    <NavLink
-                        to={routes.appointment}
-                        className="navbar__nav--link non-link"
-                    >
-                        Agendar cita
-                    </NavLink>
-                </li>
-                <li className="navbar__nav--item">
-                    <NavLink
-                        to={routes.consult}
-                        className="navbar__nav--link non-link"
-                    >
-                        Consultar cita
-                    </NavLink>
-                </li>
+                <Item name="Agendar cita" route={routes.appointment} />
+                <Item name="Consultar cita" route={routes.consult} />
+                <Item name="¿Quiénes somos?" route={routes.who} />
                 <li className="navbar__nav--item">
                     <div className="vertical-separator"></div>
                 </li>
-                <li className="navbar__nav--item">
-                    <NavLink
-                        to={routes.login}
-                        className="navbar__nav--link non-link navbar__nav--login"
-                    >
-                        Iniciar sesión
-                    </NavLink>
-                </li>
+                <Item
+                    name="Iniciar sesión"
+                    route={routes.login}
+                    className="navbar__nav--login"
+                />
             </ul>
         </nav>
     )
