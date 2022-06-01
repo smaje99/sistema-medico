@@ -1,0 +1,38 @@
+.home {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.home__title {
+    font-family: var(--title-font);
+    font-size: 22pt;
+    font-weight: bolder;
+    text-shadow: var(--shadow-text);
+    letter-spacing: 0.12rem;
+}
+
+.home__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.home__link--primary,
+.home__link--secondary {
+    font-size: 12pt;
+    font-weight: 500;
+    color: var(--anti-flash-white);
+}
+
+.home__link--primary {
+    background-color: var(--coral);
+}
+
+.home__link--secondary {
+    background-color: var(--clear-chill);
+}

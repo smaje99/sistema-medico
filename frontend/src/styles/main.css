@@ -1,0 +1,65 @@
+@font-face {
+    font-family: Montserrat;
+    src: url('../assets/fonts/Montserrat-Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../assets/fonts/Roboto-Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@import url('./rules.css');
+
+:root {
+    --title-font: Montserrat;
+    --body-font: Roboto;
+
+    --golden-sand: #eccc68;
+    --orange: #ffa502;
+    --coral: #ff7f50;
+    --bruschetta-tomato: #ff6348;
+    --wild-watermelon: #ff6b81;
+    --watermelon: #ff4757;
+    --peace: #a4b0be;
+    --bay-wharf: #747d8c;
+    --grisaille: #57606f;
+    --prestige-blue: #2f3542;
+    --lime-soap: #7bed9f;
+    --ufo-green: #2ed573;
+    --french-sky-blue: #70a1ff;
+    --clear-chill: #1e90ff;
+    --saturated-sky: #5352ed;
+    --bright-greek: #3742fa;
+    --white: #ffffff;
+    --anti-flash-white: #f1f2f6;
+    --city-lights: #dfe4ea;
+    --twinkle-blue: #ced6e0;
+    --shadow-transparent: rgba(0, 0, 0, 0.5);
+
+    --shadow-text: 0 .8rem .8rem var(--prestige-blue);
+    --shadow-text-hover: 0 .8rem .8rem var(--shadow-transparent);
+    --shadow-component: 0 .4rem .4rem var(--shadow-transparent);
+}
+
+html {
+    font-size: 62.5%;
+    font-family: var(--body-font);
+    color: var(--prestige-blue);
+    background-color: var(--twinkle-blue);
+}
+
+body::-webkit-scrollbar {
+    width: 1rem;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--saturated-sky);
+    border-radius: 1rem;
+}
+
+
+body::-webkit-scrollbar-track {
+    background-color: var(--twinkle-blue);
+}
