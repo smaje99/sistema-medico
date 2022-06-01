@@ -1,0 +1,9 @@
+.layout--private,
+.layout--public {
+    height: 100vh;
+    display: flex;
+}
+
+.layout--public {
+    flex-direction: column;
+}
