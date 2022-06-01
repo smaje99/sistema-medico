@@ -22,7 +22,7 @@ const PublicNavigation = () => {
                 <Item
                     name="Iniciar sesión"
                     route={routes.login}
-                    className="navbar__nav--login"
+                    className="navbar__nav--login button-round"
                 />
             </ul>
         </nav>

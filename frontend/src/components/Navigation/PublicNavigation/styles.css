@@ -49,9 +49,6 @@
 }
 
 .navbar__nav--login {
-    padding: .8rem 2rem;
-    border-radius: 2.8rem;
     color: var(--prestige-blue);
     background-color: var(--coral);
-    box-shadow: var(--shadow-component);
 }
