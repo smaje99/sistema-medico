@@ -10,11 +10,16 @@
   "author": "Sergio Majé",
   "license": "GPL-3.0",
   "dependencies": {
+    "@hookform/resolvers": "^2.8.10",
     "normalize.css": "^8.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.3.0"
+    "react-hook-form": "^7.31.3",
+    "react-icons": "^4.4.0",
+    "react-router-dom": "^6.3.0",
+    "react-toastify": "^9.0.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
