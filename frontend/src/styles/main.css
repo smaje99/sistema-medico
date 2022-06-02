@@ -63,3 +63,9 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-track {
     background-color: var(--twinkle-blue);
 }
+
+.toast {
+    font: 12pt (--body-font);
+    color: var(--prestige-blue);
+    background-color: var(--anti-flash-white);
+}
