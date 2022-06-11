@@ -4,7 +4,7 @@ const routes = {
     appointment: '/appointment',
     consult: '/consult',
     who: '/who',
-    forget_password: '/forget-password'
+    forgot_password: '/forgot-password'
 }
 
 export default routes;

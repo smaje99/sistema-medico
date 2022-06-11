@@ -16,7 +16,7 @@ const Login = () => (
         <section className="login__container">
             <span className="login__title">Iniciar sesión</span>
             <LoginForm />
-            <Link to={routes.forget_password} className="login__forget non-link">
+            <Link to={routes.forgot_password} className="login__forget non-link">
                 ¿Olvidaste tu contraseña?
             </Link>
         </section>
