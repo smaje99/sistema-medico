@@ -1,0 +1,106 @@
+.forgot-password {
+    flex: 1;
+}
+
+.forgot-password,
+.forgot-password__container,
+.forgot-password__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgot-password__container {
+    flex-direction: column;
+    gap: 3.2rem;
+    padding: 12rem 8rem;
+    background-color: var(--saturated-sky);
+    border-radius: 4rem;
+    backdrop-filter: blur(1.2rem);
+    box-shadow: .4rem 1.2rem 3.2rem 2rem rgba( 31, 38, 135, 0.37 );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.forgot-password__title {
+    flex: 1;
+    display: inline-block;
+    font-family: var(--title-font);
+    font-size: 18pt;
+    font-weight: 800;
+    text-shadow: var(--shadow-text);
+    letter-spacing: .16rem;
+    color: var(--anti-flash-white);
+    user-select: none;
+}
+
+.forgot-password__back {
+    display: inline-block;
+    font-size: 11pt;
+    font-weight: 100;
+    color: var(--anti-flash-white);
+    text-shadow: var(--shadow-text);
+    letter-spacing: .08rem;
+    user-select: none;
+}
+
+.forgot-password__form {
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.forgot-password__form__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: .8rem 1.6rem;
+    border-radius: 2rem;
+    background-color: var(--anti-flash-white);
+    box-shadow: var(--shadow-component);
+}
+
+.forgot-password__form__content > * {
+    font-family: var(--body_font);
+    font-size: 11pt;
+}
+
+.forgot-password__form__content,
+.forgot-password__form--submit {
+    width: 100%;
+}
+
+.forgot-password__form--input {
+    flex: 1;
+    display: inline-block;
+    outline: 0;
+    border-color: transparent;
+    background-color: var(--anti-flash-white);
+    caret-color: var(--grisaille);
+}
+
+.forgot-password__form--input,
+.forgot-password__form--input::placeholder {
+    color: var(--prestige-blue);
+}
+
+.forgot-password__form--input::placeholder {
+    opacity: 1;
+}
+
+.forgot-password__form--input:-webkit-autofill,
+.forgot-password__form--input:-webkit-autofill:hover,
+.forgot-password__form--input:-webkit-autofill:focus {
+    transition: all 0s 50000s;
+}
+
+.forgot-password__form--submit {
+    display: inline-block;
+    font-size: 12pt;
+    font-weight: 500;
+    letter-spacing: .08rem;
+    color: var(--anti-flash-white);
+    border-color: transparent;
+    background-color: var(--coral);
+    cursor: pointer;
+    text-shadow: var(--shadow-text);
+}

@@ -1,0 +1,114 @@
+.login {
+    flex: 1;
+}
+
+.login,
+.login-form,
+.login__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form,
+.login__container {
+    flex-direction: column;
+}
+
+.login__container {
+    gap: 4rem;
+    padding: 12rem 8rem;
+    background-color: var(--saturated-sky);
+    border-radius: 4rem;
+    backdrop-filter: blur(1.2rem);
+    box-shadow: .4rem 1.2rem 3.2rem 2rem rgba( 31, 38, 135, 0.37 );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.login-form {
+    gap: 2rem;
+}
+
+.login__title {
+    flex: 1;
+    display: inline-block;
+    font-family: var(--title-font);
+    font-size: 18pt;
+    font-weight: 800;
+    text-shadow: var(--shadow-text);
+    letter-spacing: .16rem;
+    color: var(--anti-flash-white);
+    user-select: none;
+}
+
+.login-form__content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: .8rem 1.6rem;
+    border-radius: 2rem;
+    background-color: var(--anti-flash-white);
+    box-shadow: var(--shadow-component);
+}
+
+.login-form__content > *,
+.login-form__input {
+    font-family: var(--body_font);
+    font-size: 11pt;
+}
+
+.login__login__input,
+.login__login__input::placeholder {
+    color: var(--prestige-blue);
+}
+
+.login__login__input {
+    flex: 1;
+    display: inline-block;
+    outline: 0;
+    border-color: transparent;
+    background-color: var(--anti-flash-white);
+    caret-color: var(--grisaille);
+}
+
+.login__login__input::placeholder {
+    opacity: 1;
+}
+
+.login__login__input:-webkit-autofill,
+.login__login__input:-webkit-autofill:hover,
+.login__login__input:-webkit-autofill:focus {
+    transition: all 0s 50000s;
+}
+
+.login-form--show {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.login-form__content,
+.login-form__input {
+    width: 100%;
+}
+
+.login-form__input {
+    display: inline-block;
+    font-size: 12pt;
+    font-weight: 500;
+    letter-spacing: .08rem;
+    color: var(--anti-flash-white);
+    border-color: transparent;
+    background-color: var(--coral);
+    cursor: pointer;
+    text-shadow: var(--shadow-text);
+}
+
+.login__forget {
+    display: inline-block;
+    font-size: 11pt;
+    font-weight: 100;
+    color: var(--anti-flash-white);
+    text-shadow: var(--shadow-text);
+    letter-spacing: .08rem;
+}

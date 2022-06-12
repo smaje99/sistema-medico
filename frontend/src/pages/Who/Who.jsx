@@ -1,6 +1,13 @@
+import { Helmet } from 'react-helmet';
+
 import './styles.css';
 
 const Who = () => (
+    <>
+    <Helmet>
+        <title>¿Quiénes somos? | Sistema Médico</title>
+    </Helmet>
+
     <main className="who">
         <div className="who__container">
             <p className="who__text">
@@ -41,6 +48,7 @@ const Who = () => (
             </p>
         </div>
     </main>
+    </>
 )
 
 export default Who

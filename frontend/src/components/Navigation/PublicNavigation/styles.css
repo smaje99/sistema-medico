@@ -52,3 +52,7 @@
     color: var(--prestige-blue);
     background-color: var(--coral);
 }
+
+.navbar__nav--login:hover {
+    text-shadow: none;
+}
