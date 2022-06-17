@@ -16,3 +16,11 @@ create table if not exists sistema_medico.Person (
     constraint pk_person primary key (dni),
     constraint chk_person_phone check(length(convert(phone, char)) = 10)
 );
+
+create table if not exists sistema_medico.role (
+    id int unsigned not null,
+    `name` varchar(50) not null,
+
+    constraint pk_role primary key (id),
+    constraint uq_role_name unique(`name`)
+);
