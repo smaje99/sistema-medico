@@ -18,7 +18,7 @@ create table if not exists sistema_medico.Person (
 );
 
 create table if not exists sistema_medico.role (
-    id int unsigned not null,
+    id int unsigned not null auto_increment,
     `name` varchar(50) not null,
 
     constraint pk_role primary key (id),
