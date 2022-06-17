@@ -24,3 +24,16 @@ create table if not exists sistema_medico.role (
     constraint pk_role primary key (id),
     constraint uq_role_name unique(`name`)
 );
+
+create table if not exists sistema_medico.user (
+    dni int unsigned not null,
+    username varchar(50) not null,
+    `password` text not null,
+    is_active bool not null default true,
+    `role` int unsigned not null,
+
+    constraint pk_user primary key (dni),
+    constraint fk_user_person foreign key (dni) references sistema_medico.person (dni),
+    constraint uq_user_username unique (username),
+    constraint fk_user_role foreign key (`role`) references sistema_medico.role (id)
+);
