@@ -1,7 +1,9 @@
 from contextlib import contextmanager
 import sys
 
-from sqlmodel import SQLModel, Session, create_engine
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 from .env import ConnectionOptionsDatabase as db
 
@@ -20,9 +22,15 @@ except Exception as e:
     sys.exit(f'Can\'t connect to database\n{str(e)}')
 
 
+Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+Base = declarative_base()
+
+
 def init_db():
     try:
-        SQLModel.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
     except Exception as e:
         sys.exit(f'Failed to create a database instance\n{str(e)}')
 
