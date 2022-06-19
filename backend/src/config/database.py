@@ -10,10 +10,12 @@ __connection_string = (
     f'mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}'
 )
 
+__connect_args__ = { 'check_same_thread': False }
+
 engine = None
 
 try:
-    engine = create_engine(__connection_string)
+    engine = create_engine(__connection_string, connect_args=__connect_args__)
 except Exception as e:
     sys.exit(f'Can\'t connect to database\n{str(e)}')
 
