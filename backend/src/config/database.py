@@ -28,25 +28,6 @@ def create_db():
 
 
 @contextmanager
-def session_reading():
-    session = Session(engine)
-    try:
+def get_session():
+    with Session(engine) as session:
         yield session
-    except:
-        session.rollback()
-        raise
-    finally:
-        session.close()
-
-
-@contextmanager
-def session_writing():
-    session = Session(engine)
-    try:
-        yield session
-        session.commit()
-    except:
-        session.rollback()
-        raise
-    finally:
-        session.close()
