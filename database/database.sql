@@ -15,6 +15,7 @@ create table if not exists sistema_medico.Person (
 
     constraint pk_person primary key (dni),
     constraint chk_person_phone check(length(convert(phone, char)) = 10)
+    constraint uq_person_email unique (email)
 );
 
 create table if not exists sistema_medico.role (
