@@ -17,7 +17,7 @@ __connect_args__ = { 'check_same_thread': False }
 engine = None
 
 try:
-    engine = create_engine(__connection_string, connect_args=__connect_args__)
+    engine = create_engine(__connection_string, echo=True, connect_args=__connect_args__)
 except Exception as e:
     sys.exit(f'Can\'t connect to database\n{str(e)}')
 
