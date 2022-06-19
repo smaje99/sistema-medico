@@ -20,7 +20,7 @@ except Exception as e:
     sys.exit(f'Can\'t connect to database\n{str(e)}')
 
 
-def create_db():
+def init_db():
     try:
         SQLModel.metadata.create_all(engine)
     except Exception as e:
