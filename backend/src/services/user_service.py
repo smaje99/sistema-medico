@@ -9,6 +9,15 @@ from schemas.user_schema import User, UserLogin
 
 
 def __contains_user(db: Session, username: str) -> bool:
+    """
+    Returns True if the user exists in the database, False otherwise
+
+    :param db: Session = Depends(get_db)
+    :type db: Session
+    :param username: str
+    :type username: str
+    :return: A boolean value.
+    """
     q = (db.query(UserModel)
             .filter(UserModel.username == username))
 
@@ -38,6 +47,16 @@ def __is_password_valid(db: Session, credentials: UserLogin) -> bool:
 
 
 def login(db: Session, credentials: UserLogin) -> User:
+    """
+    If the user doesn't exist, throw an exception. If the password is invalid, throw an exception.
+    Otherwise, return the user.
+
+    :param db: Session = Depends(get_db)
+    :type db: Session
+    :param credentials: UserLogin = UserLogin(username='username', password='password')
+    :type credentials: UserLogin
+    :return: The user object
+    """
     if __contains_user(db, credentials.username):
         raise Exception('El usuario no existe en el sistema')
 
