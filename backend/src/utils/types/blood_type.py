@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class BloodType(Enum):
+class BloodType(str, Enum):
     ABp = 'AB+'
     ABa = 'AB-'
     Ap = 'A+'
