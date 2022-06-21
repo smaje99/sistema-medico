@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from config.database import init_db
+from core import events
 
 
 app = FastAPI(
@@ -12,4 +12,4 @@ app = FastAPI(
 
 @app.on_event('startup')
 def on_startup():
-    init_db()
+    events.connect_to_database()
