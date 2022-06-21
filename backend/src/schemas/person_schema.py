@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, EmailStr
 
-from utils.types import BloodType, DocumentType, Gender
+from core.types import BloodType, DocumentType, Gender
 
 
 class Person(BaseModel):

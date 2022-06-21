@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from .env import ConnectionOptionsDatabase as db
+from core.env import ConnectionOptionsDatabase as db
 
 
 __connection_string = (

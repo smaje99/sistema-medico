@@ -2,8 +2,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Enum, Integer, String, TIMESTAMP
 
-from config.database import Base
-from utils.types import BloodType, DocumentType, Gender
+from database import Base
+from core.types import BloodType, DocumentType, Gender
 
 
 class Person(Base):
