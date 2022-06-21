@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from utils.types import BloodType, DocumentType, Gender
 
@@ -10,7 +10,7 @@ class Person(BaseModel):
     name: str
     surname: str
     address: str | None
-    email: str
+    email: EmailStr
     phone: int
     gender: Gender
     birthdate: datetime
