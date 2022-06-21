@@ -22,7 +22,7 @@ except Exception as e:
     sys.exit(f'Can\'t connect to database\n{str(e)}')
 
 
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 Base = declarative_base()
@@ -37,5 +37,5 @@ def init_db():
 
 @contextmanager
 def get_session():
-    with Session(engine) as session:
+    with SessionLocal(engine) as session:
         yield session
