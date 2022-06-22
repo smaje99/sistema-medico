@@ -1,3 +1,3 @@
-from .person_model import Person
-from .user_model import User
-from .role_model import Role
+from .person import Person
+from .user import User
+from .role import Role

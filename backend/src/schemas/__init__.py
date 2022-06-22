@@ -1,3 +1,3 @@
-from .person_schema import Person
-from .user_schema import User, UserLogin, UserCreate
-from .role_schema import Role
+from .person import Person
+from .user import User, UserLogin, UserCreate, UserUpdate
+from .role import Role

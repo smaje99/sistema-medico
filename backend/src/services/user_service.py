@@ -5,7 +5,7 @@ from starlette.status import HTTP_400_BAD_REQUEST
 
 from .crud_base import CRUDBase
 from models import User
-from schemas.user_schema import UserLogin, UserCreate, UserUpdate
+from schemas.user import UserLogin, UserCreate, UserUpdate
 
 
 class UserService(CRUDBase[User, UserCreate, UserUpdate]):
