@@ -1,7 +1,9 @@
 from abc import ABC
 
+from fastapi import HTTPException
 from sqlalchemy import literal
 from sqlalchemy.orm import Session
+from starlette.status import HTTP_400_BAD_REQUEST
 
 from crud_base import CRUDBase
 from models import User
@@ -57,12 +59,18 @@ class UserService(CRUDBase[User, UserCreate, UserUpdate]):
         :return: The user object
         """
         if _contains_user(db, credentials.username):
-            raise Exception('El usuario no existe en el sistema')
+            raise HTTPException(
+                status_code=HTTP_400_BAD_REQUEST,
+                detail='El usuario no existe en el sistema'
+            )
 
         if _is_password_valid(db, credentials):
-            raise Exception('La contraseña es incorrecta')
+            raise HTTPException(
+                status_code=HTTP_400_BAD_REQUEST
+                detail: 'La contraseña es incorrecta'
+            )
 
-        return user
+        return self.get_by_username(db, username=credentials.username)
 
 
 user = UserService(User)
