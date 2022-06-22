@@ -1,11 +1,9 @@
-from abc import ABC
-
 from fastapi import HTTPException
 from sqlalchemy import literal
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST
 
-from crud_base import CRUDBase
+from .crud_base import CRUDBase
 from models import User
 from schemas.user_schema import UserLogin, UserCreate, UserUpdate
 
@@ -47,6 +45,11 @@ class UserService(CRUDBase[User, UserCreate, UserUpdate]):
                 .filter(q.exists())
                 .scalar())
 
+    def get_by_username(self, db: Session, username: str) -> User | None:
+        return (db.query(User)
+                .filter(UserModel.username == username)
+                .first())
+
     def login(self, db: Session, credentials: UserLogin) -> User:
         """
         If the user doesn't exist, throw an exception. If the password is invalid, throw an exception.
@@ -70,7 +73,22 @@ class UserService(CRUDBase[User, UserCreate, UserUpdate]):
                 detail: 'La contraseña es incorrecta'
             )
 
-        return self.get_by_username(db, username=credentials.username)
+        return self.get_by_username(db, credentials.username)
+
+    def get(self, db: Session, dni: int) ->  User | None:
+        return (db.query(User.dni, User.username, User.is_active, User.role)
+                .filter(User.dni == dni)
+                .first())
+
+    def get_all(
+        self, db: Session, *, skip: int = 0, limit: int = 50
+    ) -> List[User]:
+        return (db.query(User)
+                .slice(skip, limit)
+                .order_by(User.username.asc())
+                .order_by(Username.role.asc())
+                .order_by(User.is_active.desc())
+                .all())
 
 
 user = UserService(User)
