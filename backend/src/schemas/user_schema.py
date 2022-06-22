@@ -13,8 +13,14 @@ class UserLogin(UserBase):
 
 class UserCreate(UserLogin):
     dni: int
-    is_active: bool
     role: int
+
+
+class UserUpdate(UserLogin):
+    username: str | None = None
+    password: str | None = None
+    is_active: bool | None = True
+    role: int | None = None
 
 
 class User(UserBase):
