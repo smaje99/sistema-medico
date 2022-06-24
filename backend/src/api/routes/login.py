@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_400_BAD_REQUEST
+from starlette.status import (
+    HTTP_400_BAD_REQUEST, HTTP_202_ACCEPTED, HTTP_204_NO_CONTENT
+)
 
 from api.dependencies.database import get_db
 from schemas.user import User, UserLogin
@@ -17,14 +19,15 @@ def login(credentials: UserLogin = Body( ... ), db: Session = Depends(get_db)):
     return user
 
 
-@router.post('password-recovery')
-def recover_password(username: str = Body( ... ), db: Service = Depends(get_db)):
-    pass
+@router.post('/password-recovery', status_code=HTTP_202_ACCEPTED)
+def recover_password(username: str = Body( ... ), db: Session = Depends(get_db)):
+    service.recover_password()
 
 
+@router.post('/password-reset', status_code=HTTP_204_NO_CONTENT)
 def reset_password(
-    username: str = Body( ... ),
+    user_id: int = Body( ... ),
     new_password: str = Body( ... ),
-    db: Service = Depends(get_db)
+    db: Session = Depends(get_db)
 ):
-    pass
+    service.reset_password(db, user_id, new_password)

@@ -30,13 +30,13 @@ class CRUDBase(ABC, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def get_all(
         self, db: Session, *, skip: int = 0, limit: int = 50
-    ) -> List[ModelType]:
+    ) -> list[ModelType]:
         return (db.query(self.model)
                 .offset(skip)
                 .limit(limit)
                 .all())
 
-    def create(self, db: Session, *, obj_in : CreateSchemaType) -> ModelType
+    def create(self, db: Session, *, obj_in : CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data)
 
@@ -70,7 +70,7 @@ class CRUDBase(ABC, Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def remove(self, db: Session, *, id: int) -> ModelType:
-        obj = self.get(id)
+        obj = self.get(db, id)
 
         db.delete(obj)
         db.commit()
