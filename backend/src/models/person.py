@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Enum, Integer, TIMESTAMP, Text
+from sqlalchemy.orm import relationship
 
 from database import Base
 from core.types import BloodType, DocumentType, Gender
@@ -20,3 +21,5 @@ class Person(Base):
     document_type = Column(Enum(DocumentType), nullable=False)
     blood_type = Column(Enum(BloodType))
     created_at = Column(TIMESTAMP, nullable=False, default=datetime.now())
+
+    user = relationship('User', back_populates='parent', uselist=False)
