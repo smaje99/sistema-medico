@@ -4,6 +4,8 @@ from database import Base
 
 
 class User(Base):
+    __tablename__ = 'user'
+
     dni = Column(Integer(unsigned=True),
                  ForeignKey('person.dni'),
                  primary_key=True,
