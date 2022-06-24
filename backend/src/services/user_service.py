@@ -73,7 +73,15 @@ class UserService(CRUDBase[User, UserCreate, UserUpdate]):
                 detail='La contraseña es incorrecta'
             )
 
-        return self.get_by_username(db, credentials.username)
+        user = self.get_by_username(db, credentials.username)
+
+        if not user.is_active:
+            raise HTTPException(
+                status_code=HTTP_400_BAD_REQUEST,
+                detail='El usuario está inactivo'
+            )
+
+        return user
 
     def get(self, db: Session, dni: int) ->  User | None:
         return (db.query(User.dni, User.username, User.is_active, User.role)
