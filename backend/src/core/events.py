@@ -1,5 +1,5 @@
-from config.database import init_db
+from database import init_db
 
 
-def connect_to_database()
+def connect_to_database():
     init_db()
