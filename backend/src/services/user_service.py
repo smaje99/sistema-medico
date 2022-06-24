@@ -52,10 +52,9 @@ class UserService(CRUDBase[User, UserCreate, UserUpdate]):
 
     def login(self, db: Session, credentials: UserLogin) -> User:
         """
-        If the user doesn't exist, throw an exception. If the password is invalid, throw an exception.
-        Otherwise, return the user.
+        If the user exists, if the password is valid, and if the user is active, return the user
 
-        :param db: Session = Depends(get_db)
+        :param db: Session: This is the database session that we will use to query the database
         :type db: Session
         :param credentials: UserLogin = UserLogin(username='username', password='password')
         :type credentials: UserLogin
