@@ -26,7 +26,7 @@ def recover_password(username: str, db: Session = Depends(get_db)):
 
 @router.post('/password-reset', status_code=HTTP_204_NO_CONTENT)
 def reset_password(
-    user_id: int = Body( ... ),
+    user_id: int = Body(..., gt=0),
     new_password: str = Body( ... ),
     db: Session = Depends(get_db)
 ):
