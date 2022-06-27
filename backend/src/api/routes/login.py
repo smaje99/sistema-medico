@@ -19,9 +19,9 @@ def login(credentials: UserLogin = Body( ... ), db: Session = Depends(get_db)):
     return user
 
 
-@router.post('/password-recovery', status_code=HTTP_202_ACCEPTED)
-def recover_password(username: str = Body( ... ), db: Session = Depends(get_db)):
-    service.recover_password()
+@router.post('/password-recovery/{username}', status_code=HTTP_202_ACCEPTED)
+def recover_password(username: str, db: Session = Depends(get_db)):
+    service.recover_password(db, username)
 
 
 @router.post('/password-reset', status_code=HTTP_204_NO_CONTENT)
