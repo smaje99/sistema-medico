@@ -13,19 +13,19 @@ router = APIRouter()
 
 
 @router.post('/login', response_model=User)
-def login(credentials: UserLogin = Body( ... ), db: Session = Depends(get_db)):
+async def login(credentials: UserLogin = Body( ... ), db: Session = Depends(get_db)):
     user = service.login(db, credentials)
 
     return user
 
 
 @router.post('/password-recovery/{username}', status_code=HTTP_202_ACCEPTED)
-def recover_password(username: str, db: Session = Depends(get_db)):
+async def recover_password(username: str, db: Session = Depends(get_db)):
     service.recover_password(db, username)
 
 
 @router.post('/password-reset', status_code=HTTP_204_NO_CONTENT)
-def reset_password(
+async def reset_password(
     user_id: int = Body(..., gt=0),
     new_password: str = Body( ... ),
     db: Session = Depends(get_db)
