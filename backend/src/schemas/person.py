@@ -1,22 +1,22 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, PastDate, PositiveInt
 
 from core.types import BloodType, DocumentType, Gender
 
 
 class Person(BaseModel):
-    dni: int
+    dni: PositiveInt
     name: str
     surname: str
     address: str | None
     email: EmailStr
     phone: int
     gender: Gender
-    birthdate: datetime
+    birthdate: PastDate
     document_type: DocumentType
     blood_type: BloodType | None
     created_at: datetime
 
-    class config:
+    class Config:
         orm_model = True
