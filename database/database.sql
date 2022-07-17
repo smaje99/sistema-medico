@@ -58,6 +58,16 @@ create table if not exists "user"."Action" (
     constraint uq_name unique ("name")
 );
 
+create table if not exists "user"."view" (
+    id uuid not null default uuid_generate_v4(),
+    "name" varchar(50) not null,
+    "route" varchar(255) not null,
+
+    constraint pk_view primary key (id),
+    constraint uq_view_name unique ("name"),
+    constraint uq_view_route unique ("route")
+);
+
 create table if not exists sistema_medico.role (
     id int unsigned not null auto_increment,
     `name` varchar(50) not null,
@@ -99,3 +109,5 @@ insert into person.person (
     (56873498, 'Edward', 'Nolsen', 'e.nolsen@gmail.com', 3498347654, 'M', '1958-07-25', 'C.C.', 'O-');
 
 insert into "user"."Action" ("name") values ('read'), ('write');
+
+insert into "user"."view" ("name", "route") values ('Dashboard', 'dashboard');
