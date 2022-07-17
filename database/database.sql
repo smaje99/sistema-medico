@@ -50,6 +50,14 @@ create table if not exists person.Person (
     constraint chk_phone check(length(phone::varchar) = 10)
 );
 
+create table if not exists "user"."Action" (
+    id uuid not null default uuid_generate_v4(),
+    "name" varchar(25) not null,
+
+    constraint pk_user primary key (id),
+    constraint uq_name unique ("name")
+);
+
 create table if not exists sistema_medico.role (
     id int unsigned not null auto_increment,
     `name` varchar(50) not null,
@@ -89,3 +97,5 @@ insert into person.person (
     (11845765, 'Anne', 'Smith', 'a.smith@gmail.com', 3245436782, 'F', '1978-02-23', 'C.E.', 'A+'),
     (17459873, 'Mandy', 'McGonagar', 'm.mcgonagar@gmail.com', 3782346543, 'F', '1962-06-26', 'C.C.', 'AB+'),
     (56873498, 'Edward', 'Nolsen', 'e.nolsen@gmail.com', 3498347654, 'M', '1958-07-25', 'C.C.', 'O-');
+
+insert into "user"."Action" ("name") values ('read'), ('write');
