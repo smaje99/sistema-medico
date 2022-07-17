@@ -1,5 +1,7 @@
 create database if not exists sistema_medico;
 
+create extension if not exists "uuid-ossp";
+
 create table if not exists sistema_medico.Person (
     dni int unsigned not null,
     `name` text not null,
