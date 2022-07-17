@@ -12,6 +12,21 @@ create schema if not exists "service";
 create schema if not exists scheduling;
 create schema if not exists accountant;
 
+create user client with password 'client';
+grant
+    select,
+    insert,
+    update,
+    delete
+on all tables in schema
+    person,
+    patient,
+    "user",
+    "service",
+    scheduling,
+    accountant
+to client;
+
 create extension if not exists "uuid-ossp";
 
 create table if not exists sistema_medico.Person (
