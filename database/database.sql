@@ -29,21 +29,25 @@ to client;
 
 create extension if not exists "uuid-ossp";
 
-create table if not exists sistema_medico.Person (
-    dni int unsigned not null,
-    `name` text not null,
+create type DocumentType as enum ('R.C.', 'T.I.', 'C.C.', 'C.E.');
+create type BloodType as enum ('AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-');
+create type Gender as enum ('M', 'F');
+
+create table if not exists person.Person (
+    dni integer not null,
+    "name" text not null,
     surname text not null,
-    `address` text,
+    "address" text,
     email text not null,
-    phone int unsigned not null,
-    gender enum('M', 'F', 'T') not null,
-    birthdate datetime not null,
-    document_type enum('R.C.', 'T.I.', 'C.C.', 'C.E.') not null,
-    blood_type enum('AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-'),
+    phone bigint not null,
+    gender Gender not null,
+    birthdate date not null,
+    document_type DocumentType not null,
+    blood_type BloodType,
     created_at timestamp not null default now(),
 
     constraint pk_person primary key (dni),
-    constraint chk_person_phone check(length(convert(phone, char)) = 10)
+    constraint chk_phone check(length(phone::varchar) = 10)
 );
 
 create table if not exists sistema_medico.role (
@@ -66,3 +70,22 @@ create table if not exists sistema_medico.user (
     constraint uq_user_username unique (username),
     constraint fk_user_role foreign key (`role`) references sistema_medico.role (id)
 );
+
+
+insert into person.person (
+    dni,
+    "name",
+    surname,
+    email,
+    phone,
+    gender,
+    birthdate,
+    document_type,
+    blood_type
+) values
+    (14589657, 'John', 'Doe', 'j.doe@gmail.com', 3215894789, 'M', '1970-05-14', 'C.C.', 'B+'),
+    (23458573, 'Mary', 'Doe', 'm.doe@gmail.com', 3245832093, 'F', '1983-09-23', 'C.C.', 'O+'),
+    (1119456034, 'Avery', 'Doe', 'a.doe@gmail.com', 3167983876, 'M', '2012-12-04', 'T.I.', 'O+'),
+    (11845765, 'Anne', 'Smith', 'a.smith@gmail.com', 3245436782, 'F', '1978-02-23', 'C.E.', 'A+'),
+    (17459873, 'Mandy', 'McGonagar', 'm.mcgonagar@gmail.com', 3782346543, 'F', '1962-06-26', 'C.C.', 'AB+'),
+    (56873498, 'Edward', 'Nolsen', 'e.nolsen@gmail.com', 3498347654, 'M', '1958-07-25', 'C.C.', 'O-');
