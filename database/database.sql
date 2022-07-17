@@ -5,6 +5,13 @@ create database sistema_medico;
 create user administrator with password 'administrator';
 grant all privileges on database sistema_medico to administrator;
 
+create schema if not exists person;
+create schema if not exists patient;
+create schema if not exists "user";
+create schema if not exists "service";
+create schema if not exists scheduling;
+create schema if not exists accountant;
+
 create extension if not exists "uuid-ossp";
 
 create table if not exists sistema_medico.Person (
