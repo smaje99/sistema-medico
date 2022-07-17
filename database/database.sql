@@ -1,4 +1,9 @@
-create database if not exists sistema_medico;
+create database sistema_medico;
+
+\c sistema_medico
+
+create user administrator with password 'administrator';
+grant all privileges on database sistema_medico to administrator;
 
 create extension if not exists "uuid-ossp";
 
