@@ -262,6 +262,18 @@ create table if not exists patient.Allergy (
     constraint pk_allergy primary key (id)
 );
 
+create table if not exists patient.PatientAllergy (
+    patient_dni bigint not null,
+    allergy_id uuid not null,
+    observation text,
+
+    constraint pk_patient_allergy primary key (patient_dni, allergy_id),
+    constraint fk_patient foreign key (patient_dni)
+        references patient.patient (dni),
+    constraint fk_allergy foreign key (allergy_id)
+        references patient.allergy (id)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -366,3 +378,6 @@ values (1119456034), (56873498);
 
 insert into patient.allergy ("name")
 values ('rinitis alérgica'), ('penicilina'), ('látex');
+
+insert into patient.patientallergy (patient_dni, allergy_id)
+values (56873498, '01cbd4d8-17a8-4b57-9023-184a5a637f35');
