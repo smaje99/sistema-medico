@@ -290,6 +290,19 @@ create table if not exists patient.Entity (
     constraint chk_entity_phone check(phone > 0)
 );
 
+create table if not exists patient.PatientEntity (
+    id uuid not null default uuid_generate_v4(),
+    is_active boolean not null default true,
+    patient_dni bigint not null,
+    entity_id uuid not null,
+
+    constraint pk_patient_entity primary key (id),
+    constraint fk_patient foreign key (patient_dni)
+        references patient.patient (dni),
+    constraint fk_entity foreign key (entity_id)
+        references patient.entity (id)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -402,3 +415,8 @@ insert into patient.entity (nit, "name", "address", email, phone)
 values
     ('111111111-1', 'particular', 'in-sitio', 'ips@company.com', 3124567895),
     ('222222222-2', 'Sanitas E.P.S.', 'Calle 1', 'sanitas@company.com', 3692581474);
+
+insert into patient.PatientEntity (patient_dni, entity_id)
+values
+    (1119456034, 'a67067eb-ae7c-4032-9e62-f96bd2ec9e88'),
+    (56873498, 'ddbe40ec-ffa0-45a9-b871-a9168fee6131');
