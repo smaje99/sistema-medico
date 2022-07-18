@@ -246,6 +246,14 @@ create table if not exists scheduling.Schedule (
         references "service".office (id)
 );
 
+create table if not exists patient.Patient (
+    dni bigint not null,
+
+    constraint pk_patient primary key (dni),
+    constraint fk_person foreign key (dni)
+        references "person".person (dni)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -344,3 +352,6 @@ insert into scheduling.schedule (
     doctor_dni,
     office_id
 ) values ('presencial', 'todo el día', 11845765, '1b5ad114-37d6-47b8-b73a-3c1621bc2e91');
+
+insert into patient.patient (dni)
+values (1119456034), (56873498);
