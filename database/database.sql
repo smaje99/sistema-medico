@@ -254,6 +254,14 @@ create table if not exists patient.Patient (
         references "person".person (dni)
 );
 
+create table if not exists patient.Allergy (
+    id uuid not null default uuid_generate_v4(),
+    "name" text not null,
+    is_active boolean not null default true,
+
+    constraint pk_allergy primary key (id)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -355,3 +363,6 @@ insert into scheduling.schedule (
 
 insert into patient.patient (dni)
 values (1119456034), (56873498);
+
+insert into patient.allergy ("name")
+values ('rinitis alérgica'), ('penicilina'), ('látex');
