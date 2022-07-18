@@ -194,6 +194,14 @@ create table if not exists "service".Diagnostic (
     constraint pk_diagnostic primary key (code)
 );
 
+create table if not exists "service".Exam (
+    code varchar(5) not null,
+    "name" text not null,
+    is_active boolean not null default true,
+
+    constraint pk_exam primary key (code)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -269,3 +277,8 @@ insert into "service".diagnostic (code, "name") values
     ('M45X', 'Espondolitis Anquilosante'),
     ('I50', 'Insuficiencia Cardíaca'),
     ('I10', 'Hipertensión Arterial');
+
+insert into "service".exam (code, "name") values
+    ('RMN', 'Resonancia Magnetica Nuclear'),
+    ('RX', 'Radiografía'),
+    ('ECO', 'Ecografía');
