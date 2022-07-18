@@ -1,3 +1,4 @@
+-- Active: 1658088866111@@127.0.0.1@5432@sistema_medico
 create database sistema_medico;
 
 \c sistema_medico
@@ -68,12 +69,12 @@ create table if not exists "user"."view" (
     constraint uq_view_route unique ("route")
 );
 
-create table if not exists sistema_medico.role (
-    id int unsigned not null auto_increment,
-    `name` varchar(50) not null,
+create table if not exists "user"."role" (
+    id uuid not null default uuid_generate_v4(),
+    "name" varchar(50) not null,
 
     constraint pk_role primary key (id),
-    constraint uq_role_name unique(`name`)
+    constraint uq_role_name unique("name")
 );
 
 create table if not exists sistema_medico.user (
@@ -111,3 +112,5 @@ insert into person.person (
 insert into "user"."Action" ("name") values ('read'), ('write');
 
 insert into "user"."view" ("name", "route") values ('Dashboard', 'dashboard');
+
+insert into "user"."role" ("name") values ('administrador'), ('médico'), ('recepcionista');
