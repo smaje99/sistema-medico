@@ -140,6 +140,13 @@ create table if not exists "service".doctor (
     constraint uq_doctor_medical_license unique (medical_license)
 );
 
+create table if not exists "service".Specialty (
+    id uuid not null default uuid_generate_v4(),
+    "name" text not null,
+
+    constraint pk_specialty primary key (id)
+);
+
 
 insert into person.person (
     dni,
@@ -179,3 +186,5 @@ insert into "user"."user" (dni, username, "password", role_id) values
     (11845765, 'a.smith', 'a1184', 'baf197ab-87aa-401a-a226-5b21fb79c7fd');
 
 insert into "service".doctor (dni, medical_license) values (11845765, 141516);
+
+insert into "service".specialty ("name") values ('Medicina Interna');
