@@ -274,6 +274,22 @@ create table if not exists patient.PatientAllergy (
         references patient.allergy (id)
 );
 
+create table if not exists patient.Entity (
+    id uuid not null default uuid_generate_v4(),
+    nit char(11) not null,
+    "name" text not null,
+    "address" text not null,
+    email text not null,
+    phone bigint not null,
+    has_agreement boolean not null default true,
+    created_at timestamp not null default now(),
+
+    constraint pk_entity primary key (id),
+    constraint uq_entity_nit unique (nit),
+    constraint uq_entity_email unique (email),
+    constraint chk_entity_phone check(phone > 0)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -381,3 +397,8 @@ values ('rinitis alérgica'), ('penicilina'), ('látex');
 
 insert into patient.patientallergy (patient_dni, allergy_id)
 values (56873498, '01cbd4d8-17a8-4b57-9023-184a5a637f35');
+
+insert into patient.entity (nit, "name", "address", email, phone)
+values
+    ('111111111-1', 'particular', 'in-sitio', 'ips@company.com', 3124567895),
+    ('222222222-2', 'Sanitas E.P.S.', 'Calle 1', 'sanitas@company.com', 3692581474);
