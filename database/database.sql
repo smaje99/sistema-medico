@@ -224,7 +224,26 @@ create table if not exists scheduling.Permit (
 
     constraint pk_permit primary key (id),
     constraint fk_doctor foreign key (doctor_dni)
-        references "service".doctor
+        references "service".doctor (dni)
+);
+
+create type AppointmentType as enum ('presencial', 'domiciliaria');
+
+create type SessionType as enum ('mañana', 'tarde', 'todo el día');
+
+create table if not exists scheduling.Schedule (
+    id uuid not null default uuid_generate_v4(),
+    appointment_type AppointmentType not null,
+    "session" SessionType not null,
+    is_active boolean default true,
+    doctor_dni bigint not null,
+    office_id uuid,
+
+    constraint pk_schedule primary key (id),
+    constraint fk_doctor foreign key (doctor_dni)
+        references "service".doctor (dni),
+    constraint fk_office foreign key (office_id)
+        references "service".office (id)
 );
 
 insert into person.person (
@@ -318,3 +337,10 @@ values
 insert into scheduling.permit ("start_date", end_date, doctor_dni)
 values
     ('2022-07-26 08:00:00', '2022-07-28 18:00:00', 11845765);
+
+insert into scheduling.schedule (
+    appointment_type,
+    "session",
+    doctor_dni,
+    office_id
+) values ('presencial', 'todo el día', 11845765, '1b5ad114-37d6-47b8-b73a-3c1621bc2e91');
