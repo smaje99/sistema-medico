@@ -170,6 +170,22 @@ create table if not exists "service".Office (
     constraint uq_office_name unique (name)
 );
 
+create type ServiceType as enum ('presencial', 'domiciliaria');
+
+create table if not exists "service"."service" (
+    id uuid not null default uuid_generate_v4(),
+    "name" text not null,
+    observation text,
+    cost decimal not null default 0,
+    service_type ServiceType not null,
+    is_active boolean not null default true,
+    specialty_id uuid not null,
+
+    constraint pk_service primary key (id),
+    constraint fk_specialty foreign key (specialty_id)
+        references "service"."specialty" (id)
+);
+
 
 insert into person.person (
     dni,
@@ -228,3 +244,16 @@ insert into "service".doctorspecialty (
     );
 
 insert into "service".office ("name") values ('Consultorio 1');
+
+insert into "service"."service" (
+    "name",
+    cost,
+    service_type,
+    specialty_id
+) values
+    (
+        'Cuidados paleativos para el dolor',
+        80000,
+        'presencial',
+        'bb78510b-5c2b-4330-9386-2ac30380d74e'
+    );
