@@ -213,6 +213,20 @@ create table if not exists "service".Medicine (
     constraint chk_medicine_quantity check(quantity >= 0)
 );
 
+create table if not exists scheduling.Permit (
+    id uuid not null default uuid_generate_v4(),
+    reason text,
+    is_active boolean not null default true,
+    "start_date" timestamp not null,
+    end_date timestamp not null,
+    created_at timestamp not null default now(),
+    doctor_dni bigint not null,
+
+    constraint pk_permit primary key (id),
+    constraint fk_doctor foreign key (doctor_dni)
+        references "service".doctor
+);
+
 insert into person.person (
     dni,
     "name",
@@ -300,3 +314,7 @@ values
     ('DFS100M', 'diclofenaco sodico', 50, 'mg'),
     ('IB400M', 'ibuprofeno', 400, 'mg'),
     ('ATOR40M', 'atorvastatina', 40, 'mg');
+
+insert into scheduling.permit ("start_date", end_date, doctor_dni)
+values
+    ('2022-07-26 08:00:00', '2022-07-28 18:00:00', 11845765);
