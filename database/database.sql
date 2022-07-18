@@ -55,7 +55,7 @@ create table if not exists "user"."action" (
     id uuid not null default uuid_generate_v4(),
     "name" varchar(25) not null,
 
-    constraint pk_user primary key (id),
+    constraint pk_action primary key (id),
     constraint uq_name unique ("name")
 );
 
@@ -102,17 +102,19 @@ create table if not exists "user".RolePermission (
         references "user".permission (id)
 );
 
-create table if not exists sistema_medico.user (
-    dni int unsigned not null,
+create table if not exists "user"."user" (
+    dni bigint not null,
     username varchar(50) not null,
-    `password` text not null,
+    "password" text not null,
     is_active bool not null default true,
-    `role` int unsigned not null,
+    role_id uuid not null,
 
     constraint pk_user primary key (dni),
-    constraint fk_user_person foreign key (dni) references sistema_medico.person (dni),
-    constraint uq_user_username unique (username),
-    constraint fk_user_role foreign key (`role`) references sistema_medico.role (id)
+    constraint fk_person foreign key (dni)
+        references person.person (dni),
+    constraint fk_role foreign key (role_id)
+        references "user"."role" (id),
+    constraint uq_user_username unique (username)
 );
 
 
@@ -147,3 +149,8 @@ insert into "user".rolepermission (role_id, permission_id) values
     ('f6f3e9c7-b879-4644-8e63-7bb463961cf8', '34a9373d-4754-462f-b46f-573597878c1f'),
     ('baf197ab-87aa-401a-a226-5b21fb79c7fd', '34a9373d-4754-462f-b46f-573597878c1f'),
     ('4c2d2500-6115-4732-8cb1-507ea60b61f8', '34a9373d-4754-462f-b46f-573597878c1f');
+
+insert into "user"."user" (dni, username, "password", role_id) values
+    (14589657, 'j.doe', 'admin', 'f6f3e9c7-b879-4644-8e63-7bb463961cf8'),
+    (23458573, 'm.doe', 'm2345', '4c2d2500-6115-4732-8cb1-507ea60b61f8'),
+    (11845765, 'a.smith', 'a1184', 'baf197ab-87aa-401a-a226-5b21fb79c7fd');
