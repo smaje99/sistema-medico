@@ -117,6 +117,19 @@ create table if not exists "user"."user" (
     constraint uq_user_username unique (username)
 );
 
+create table if not exists "user".UserPermission (
+    id uuid not null default uuid_generate_v4(),
+    is_active boolean not null default true,
+    user_dni bigint not null,
+    permission_id uuid not null,
+
+    constraint pk_user_permission primary key (id),
+    constraint fk_user foreign key (user_dni)
+        references "user"."user" (dni),
+    constraint fk_permission foreign key (permission_id)
+        references "user"."permission" (id)
+);
+
 
 insert into person.person (
     dni,
