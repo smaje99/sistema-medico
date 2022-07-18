@@ -130,6 +130,16 @@ create table if not exists "user".UserPermission (
         references "user"."permission" (id)
 );
 
+create table if not exists "service".doctor (
+    dni bigint not null,
+    medical_license integer not null,
+
+    constraint pk_doctor primary key (dni),
+    constraint fk_user foreign key (dni)
+        references "user"."user" (dni),
+    constraint uq_doctor_medical_license unique (medical_license)
+);
+
 
 insert into person.person (
     dni,
@@ -167,3 +177,5 @@ insert into "user"."user" (dni, username, "password", role_id) values
     (14589657, 'j.doe', 'admin', 'f6f3e9c7-b879-4644-8e63-7bb463961cf8'),
     (23458573, 'm.doe', 'm2345', '4c2d2500-6115-4732-8cb1-507ea60b61f8'),
     (11845765, 'a.smith', 'a1184', 'baf197ab-87aa-401a-a226-5b21fb79c7fd');
+
+insert into "service".doctor (dni, medical_license) values (11845765, 141516);
