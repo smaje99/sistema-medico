@@ -186,6 +186,13 @@ create table if not exists "service"."service" (
         references "service"."specialty" (id)
 );
 
+create table if not exists "service".Diagnostic (
+    code varchar(5) not null,
+    "name" text not null,
+    is_active boolean not null default true,
+
+    constraint pk_diagnostic primary key (code)
+);
 
 insert into person.person (
     dni,
@@ -257,3 +264,8 @@ insert into "service"."service" (
         'presencial',
         'bb78510b-5c2b-4330-9386-2ac30380d74e'
     );
+
+insert into "service".diagnostic (code, "name") values
+    ('M45X', 'Espondolitis Anquilosante'),
+    ('I50', 'Insuficiencia Cardíaca'),
+    ('I10', 'Hipertensión Arterial');
