@@ -89,6 +89,19 @@ create table if not exists "user".Permission (
         references "user"."action" (id)
 );
 
+create table if not exists "user".RolePermission (
+    id uuid not null default uuid_generate_v4(),
+    is_active boolean not null default true,
+    role_id uuid not null,
+    permission_id uuid not null,
+
+    constraint pk_role_permissions primary key (id),
+    constraint fk_role foreign key (role_id)
+        references "user"."role" (id),
+    constraint fk_permission foreign key (permission_id)
+        references "user".permission (id)
+);
+
 create table if not exists sistema_medico.user (
     dni int unsigned not null,
     username varchar(50) not null,
@@ -129,3 +142,8 @@ insert into "user"."role" ("name") values ('administrador'), ('médico'), ('rece
 
 insert into "user".permission (view_id, action_id) values
     ('c598fab1-faca-408f-8c61-79390b16ffdb', '8010f2c5-0bf5-4696-b43e-7dbde3e18c3b');
+
+insert into "user".rolepermission (role_id, permission_id) values
+    ('f6f3e9c7-b879-4644-8e63-7bb463961cf8', '34a9373d-4754-462f-b46f-573597878c1f'),
+    ('baf197ab-87aa-401a-a226-5b21fb79c7fd', '34a9373d-4754-462f-b46f-573597878c1f'),
+    ('4c2d2500-6115-4732-8cb1-507ea60b61f8', '34a9373d-4754-462f-b46f-573597878c1f');
