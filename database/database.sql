@@ -147,6 +147,21 @@ create table if not exists "service".Specialty (
     constraint pk_specialty primary key (id)
 );
 
+create table if not exists "service".DoctorSpecialty (
+    doctor_dni bigint not null,
+    specialty_id uuid not null,
+    degree_title text not null,
+    degree_register integer not null,
+    university text not null,
+
+    constraint pk_doctor_specialty primary key (doctor_dni, specialty_id),
+    constraint fk_doctor foreign key (doctor_dni)
+        references "service".doctor (dni),
+    constraint fk_specialty foreign key (specialty_id)
+        references "service".specialty (id),
+    constraint uq_doctor_specialty_degree_register unique (degree_register)
+);
+
 
 insert into person.person (
     dni,
@@ -188,3 +203,18 @@ insert into "user"."user" (dni, username, "password", role_id) values
 insert into "service".doctor (dni, medical_license) values (11845765, 141516);
 
 insert into "service".specialty ("name") values ('Medicina Interna');
+
+insert into "service".doctorspecialty (
+    doctor_dni,
+    specialty_id,
+    degree_title,
+    degree_register,
+    university
+) values
+    (
+        11845765,
+        'bb78510b-5c2b-4330-9386-2ac30380d74e',
+        'Medicina Interna',
+        124578,
+        'Universidad Nacional de Colombia'
+    );
