@@ -51,7 +51,7 @@ create table if not exists person.Person (
     constraint chk_phone check(length(phone::varchar) = 10)
 );
 
-create table if not exists "user"."Action" (
+create table if not exists "user"."action" (
     id uuid not null default uuid_generate_v4(),
     "name" varchar(25) not null,
 
@@ -75,6 +75,18 @@ create table if not exists "user"."role" (
 
     constraint pk_role primary key (id),
     constraint uq_role_name unique("name")
+);
+
+create table if not exists "user".Permission (
+    id uuid not null default uuid_generate_v4(),
+    view_id uuid not null,
+    action_id uuid not null,
+
+    constraint pk_permission primary key (id),
+    constraint fk_view foreign key (view_id)
+        references "user"."view" (id),
+    constraint fk_action foreign key (action_id)
+        references "user"."action" (id)
 );
 
 create table if not exists sistema_medico.user (
@@ -114,3 +126,6 @@ insert into "user"."Action" ("name") values ('read'), ('write');
 insert into "user"."view" ("name", "route") values ('Dashboard', 'dashboard');
 
 insert into "user"."role" ("name") values ('administrador'), ('médico'), ('recepcionista');
+
+insert into "user".permission (view_id, action_id) values
+    ('c598fab1-faca-408f-8c61-79390b16ffdb', '8010f2c5-0bf5-4696-b43e-7dbde3e18c3b');
