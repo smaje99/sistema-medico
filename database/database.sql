@@ -303,6 +303,24 @@ create table if not exists patient.PatientEntity (
         references patient.entity (id)
 );
 
+create table if not exists scheduling.appointment (
+    id uuid not null default uuid_generate_v4(),
+    "date" timestamp not null,
+    reason text,
+    is_attending boolean not null default false,
+    patient_id uuid not null,
+    service_id uuid not null,
+    schedule_id uuid not null,
+
+    constraint pk_appointment primary key (id),
+    constraint fk_patient foreign key (patient_id)
+        references patient.patiententity (id),
+    constraint fk_service foreign key (service_id)
+        references "service"."service" (id),
+    constraint fk_schedule foreign key (schedule_id)
+        references scheduling.schedule (id)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -420,3 +438,8 @@ insert into patient.PatientEntity (patient_dni, entity_id)
 values
     (1119456034, 'a67067eb-ae7c-4032-9e62-f96bd2ec9e88'),
     (56873498, 'ddbe40ec-ffa0-45a9-b871-a9168fee6131');
+
+insert into scheduling.appointment ("date", patient_id, service_id, schedule_id)
+values
+    ('2022-08-01 08:00:00', 'f4861a36-86bb-459b-8f6e-3af5e9c0e453', '60e318f5-cec6-495d-b2a3-70b79941845b', '77fb22c8-b0bb-4042-a283-b24d4fdad5c4'),
+    ('2022-09-01 08:00:00', 'f4861a36-86bb-459b-8f6e-3af5e9c0e453', '60e318f5-cec6-495d-b2a3-70b79941845b', '77fb22c8-b0bb-4042-a283-b24d4fdad5c4');
