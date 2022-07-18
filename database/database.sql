@@ -162,6 +162,14 @@ create table if not exists "service".DoctorSpecialty (
     constraint uq_doctor_specialty_degree_register unique (degree_register)
 );
 
+create table if not exists "service".Office (
+    id uuid not null default uuid_generate_v4(),
+    "name" text not null,
+
+    constraint pk_office primary key (id),
+    constraint uq_office_name unique (name)
+);
+
 
 insert into person.person (
     dni,
@@ -218,3 +226,5 @@ insert into "service".doctorspecialty (
         124578,
         'Universidad Nacional de Colombia'
     );
+
+insert into "service".office ("name") values ('Consultorio 1');
