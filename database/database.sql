@@ -321,6 +321,15 @@ create table if not exists scheduling.appointment (
         references scheduling.schedule (id)
 );
 
+create table if not exists scheduling.antecedent (
+    file_uuid uuid not null,
+    appointment_id uuid not null,
+
+    constraint pk_actecedent primary key (file_uuid),
+    constraint fk_appointment_id foreign key (appointment_id)
+        references scheduling.appointment (id)
+);
+
 insert into person.person (
     dni,
     "name",
