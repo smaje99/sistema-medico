@@ -202,6 +202,17 @@ create table if not exists "service".Exam (
     constraint pk_exam primary key (code)
 );
 
+create table if not exists "service".Medicine (
+    code varchar(10) not null,
+    "name" text not null,
+    quantity integer not null default 0,
+    unit varchar(5) not null,
+    is_active boolean not null default true,
+
+    constraint pk_medicine primary key (code),
+    constraint chk_medicine_quantity check(quantity >= 0)
+);
+
 insert into person.person (
     dni,
     "name",
@@ -282,3 +293,10 @@ insert into "service".exam (code, "name") values
     ('RMN', 'Resonancia Magnetica Nuclear'),
     ('RX', 'Radiografía'),
     ('ECO', 'Ecografía');
+
+insert into "service".medicine (code, "name", quantity, unit)
+values
+    ('DFS50M', 'diclofenaco sodico', 50, 'mg'),
+    ('DFS100M', 'diclofenaco sodico', 50, 'mg'),
+    ('IB400M', 'ibuprofeno', 400, 'mg'),
+    ('ATOR40M', 'atorvastatina', 40, 'mg');
