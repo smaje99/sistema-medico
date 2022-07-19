@@ -424,6 +424,13 @@ create table if not exists patient.ServiceRecord (
         references "service"."service" (id)
 );
 
+create table if not exists accountant.PaymentType (
+    id uuid not null default uuid_generate_v4(),
+    "name" text not null,
+
+    constraint pk_payment_type primary key (id)
+);
+
 -- registros
 
 insert into person.person (
@@ -548,3 +555,6 @@ insert into scheduling.appointment ("date", patient_id, service_id, schedule_id)
 values
     ('2022-08-01 08:00:00', 'f4861a36-86bb-459b-8f6e-3af5e9c0e453', '60e318f5-cec6-495d-b2a3-70b79941845b', '77fb22c8-b0bb-4042-a283-b24d4fdad5c4'),
     ('2022-09-01 08:00:00', 'f4861a36-86bb-459b-8f6e-3af5e9c0e453', '60e318f5-cec6-495d-b2a3-70b79941845b', '77fb22c8-b0bb-4042-a283-b24d4fdad5c4');
+
+
+insert into accountant.paymenttype ("name") values ('contado'), ('crédito');
