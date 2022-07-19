@@ -1352,3 +1352,38 @@ create or replace trigger trAllergy_Aud
     on patient.allergy
     for each row
     execute procedure "audit".fnAllergy_Aud();
+
+create table if not exists "audit".PatientAllergy_Aud (
+    patient_dni bigint,
+    allergy_id uuid,
+    observation text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPatientAllergy_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".patientallergy_aud values (
+        new.patient_dni,
+        new.allergy_id,
+        new.observation,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPatientAllergy_Aud
+    before insert or update or delete
+    on patient.patientallergy
+    for each row
+    execute procedure "audit".fnPatientAllergy_Aud();
