@@ -663,3 +663,36 @@ insert into person.person (
     blood_type
 ) values
     (69854723, 'Marcus', 'Brown', 'm.brown@gmail.com', 3458915472, 'M', '1992-11-28', 'C.C.', 'A+');
+
+create table if not exists "audit"."action_aud" (
+    id uuid,
+    "name" varchar(25),
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnAction_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".action_aud values (
+        new.id,
+        new."name",
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trAction_Aud
+    before insert or update or delete
+    on "user"."action"
+    for each row
+    execute procedure "audit".fnAction_Aud();
