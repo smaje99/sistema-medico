@@ -1512,3 +1512,36 @@ create or replace trigger trAppointment_Aud
     on scheduling.appointment
     for each row
     execute procedure "audit".fnAppointment_Aud();
+
+create table if not exists "audit".Antecedent_Aud (
+    file_uuid uuid,
+    appointment_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnAntecedent_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".antecedent_aud values (
+        new.file_uuid,
+        new.appointment_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trAntecedent_Aud
+    before insert or update or delete
+    on scheduling.antecedent
+    for each row
+    execute procedure "audit".fnAntecedent_Aud();
