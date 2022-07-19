@@ -1580,3 +1580,40 @@ create or replace trigger trCancellation_Aud
     on scheduling.cancellation
     for each row
     execute procedure "audit".fnCancellation_Aud();
+
+create table if not exists "audit".Record_Aud (
+    id uuid,
+    observation text,
+    created_at timestamp,
+    appointment_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnRecord_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".record_aud values (
+        new.id,
+        new.observation,
+        new.created_at,
+        new.appointment_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trRecord_Aud
+    before insert or update or delete
+    on patient.record
+    for each row
+    execute procedure "audit".fnRecord_Aud();
