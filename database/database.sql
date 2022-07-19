@@ -1806,3 +1806,36 @@ create or replace trigger trServiceRecord_Aud
     on patient.servicerecord
     for each row
     execute procedure "audit".fnServiceRecord_Aud();
+
+create table if not exists "audit".PaymentType_Aud (
+    id uuid,
+    "name" text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPaymentType_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".paymenttype_aud values (
+        new.id,
+        new."name",
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPaymentType_Aud
+    before insert or update or delete
+    on accountant.paymenttype
+    for each row
+    execute procedure "audit".fnPaymentType_Aud();
