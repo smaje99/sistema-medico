@@ -1839,3 +1839,44 @@ create or replace trigger trPaymentType_Aud
     on accountant.paymenttype
     for each row
     execute procedure "audit".fnPaymentType_Aud();
+
+create table if not exists "audit".Payment (
+    id uuid,
+    amount decimal,
+    is_paid boolean,
+    created_at timestamp,
+    payment_type_id uuid,
+    appointment_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPayment_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".payment_aud values (
+        new.id,
+        new.amount,
+        new.is_paid,
+        new.created_at,
+        new.payment_type_id,
+        new.appointment_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPayment_Aud
+    before insert or update or delete
+    on accountant.payment
+    for each row
+    execute procedure "audit".fnPayment_Aud();
