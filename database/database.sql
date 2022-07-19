@@ -1111,7 +1111,7 @@ create or replace function "audit".fnExam_Aud()
 $$
 begin
     insert into "audit".exam_aud values (
-        new.cpde,
+        new.code,
         new."name",
         new.is_active,
         user,
@@ -1128,3 +1128,38 @@ create or replace trigger trExam_Aud
     on "service".exam
     for each row
     execute procedure "audit".fnExam_Aud();
+
+create table if not exists "audit".Diagnostic_Aud (
+    code varchar(5),
+    "name" text,
+    is_active boolean,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnDiagnostic_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".diagnostic_aud values (
+        new.code,
+        new."name",
+        new.is_active,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trDiagnostic_Aud
+    before insert or update or delete
+    on "service".diagnostic
+    for each row
+    execute procedure "audit".fnDiagnostic_Aud();
