@@ -1387,3 +1387,48 @@ create or replace trigger trPatientAllergy_Aud
     on patient.patientallergy
     for each row
     execute procedure "audit".fnPatientAllergy_Aud();
+
+create table if not exists "audit".Entity_Aud (
+    id uuid,
+    nit char(11),
+    "name" text,
+    "address" text,
+    email text,
+    phone bigint,
+    has_agreement boolean,
+    created_at timestamp,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnEntity_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".entity_aud values (
+        new.id,
+        new.nit,
+        new."name",
+        new."address",
+        new.email,
+        new.phone,
+        new.has_agreement,
+        new.create_at,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trEntity_Aud
+    before insert or update or delete
+    on patient.entity
+    for each row
+    execute procedure "audit".fnEntity_Aud();
