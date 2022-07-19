@@ -1699,3 +1699,38 @@ create or replace trigger trDiagnosticRecord_Aud
     on patient.diagnosticrecord
     for each row
     execute procedure "audit".fnDiagnosticRecord_Aud();
+
+create table if not exists "audit".ExamRecord_Aud (
+    record_id uuid,
+    exam_code varchar(5),
+    indication text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnExamRecord_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".examrecord_aud values (
+        new.record_id,
+        new.exam_code,
+        new.indication,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trExamRecord_Aud
+    before insert or update or delete
+    on patient.examrecord
+    for each row
+    execute procedure "audit".fnExamRecord_Aud();
