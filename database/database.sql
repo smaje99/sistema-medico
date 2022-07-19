@@ -912,3 +912,36 @@ create or replace trigger trUserPermission_Aud
     on "user".userpermission
     for each row
     execute procedure "audit".fnUserPermission_Aud();
+
+create table if not exists "audit".Doctor_Aud (
+    dni bigint,
+    medical_license integer,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnDoctor_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".doctor_aud values (
+        new.dni,
+        new.medical_license,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trDoctor_Aud
+    before insert or update or delete
+    on "service".doctor
+    for each row
+    execute procedure "audit".fnDoctor_Aud();
