@@ -1245,3 +1245,44 @@ create or replace trigger trPermit_Aud
     on scheduling.permit
     for each row
     execute procedure "audit".fnPermit_Aud();
+
+create table if not exists "audit".Schedule_Aud (
+    id uuid,
+    appointment_type AppointmentType,
+    "session" SessionType,
+    is_active boolean,
+    doctor_dni bigint,
+    office_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnSchedule_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".schedule_aud values (
+        new.id,
+        new.appointment_type,
+        new."session",
+        new.is_active,
+        new.doctor_dni,
+        new.office_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trSchedule_Aud
+    before insert or update or delete
+    on scheduling.schedule
+    for each row
+    execute procedure "audit".fnSchedule_Aud();
