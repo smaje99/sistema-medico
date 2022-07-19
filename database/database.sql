@@ -369,6 +369,18 @@ create table if not exists patient.VitalSigns (
         references patient.record (id)
 );
 
+create table if not exists patient.DiagnosticRecord (
+    record_id uuid not null,
+    diagnostic_code varchar(5) not null,
+    observation text not null,
+
+    constraint pk_diagnostic_record primary key (record_id, diagnostic_code),
+    constraint fk_record foreign key (record_id)
+        references patient.record (id),
+    constraint fk_diagnostic foreign key (diagnostic_code)
+        references "service".diagnostic (code)
+);
+
 insert into person.person (
     dni,
     "name",
