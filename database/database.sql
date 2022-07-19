@@ -696,3 +696,38 @@ create or replace trigger trAction_Aud
     on "user"."action"
     for each row
     execute procedure "audit".fnAction_Aud();
+
+create table if not exists "audit"."view_aud" (
+    id uuid,
+    "name" varchar(50),
+    "route" varchar(255),
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnView_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".view_aud values (
+        new.id,
+        new."name",
+        new."route",
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trView_Aud
+    before insert or update or delete
+    on "user"."view"
+    for each row
+    execute procedure "audit".fnView_Aud();
