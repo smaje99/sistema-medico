@@ -731,3 +731,36 @@ create or replace trigger trView_Aud
     on "user"."view"
     for each row
     execute procedure "audit".fnView_Aud();
+
+create table if not exists "audit"."role_aud" (
+    id uuid,
+    "name" varchar(50),
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnRole_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".role_aud values (
+        new.id,
+        new."name",
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trRole_Aud
+    before insert or update or delete
+    on "user"."role"
+    for each row
+    execute procedure "audit".fnRole_Aud();
