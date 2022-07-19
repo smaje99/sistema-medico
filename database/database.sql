@@ -1880,3 +1880,42 @@ create or replace trigger trPayment_Aud
     on accountant.payment
     for each row
     execute procedure "audit".fnPayment_Aud();
+
+create table if not exists "audit".Credit_Aud (
+    id uuid,
+    amount decimal,
+    total_fees integer,
+    is_active boolean,
+    payment_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnCredit_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".credit_aud values (
+        new.id,
+        new.amount,
+        new.total_fees,
+        new.is_active,
+        new.payment_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trCredit_Aud
+    before insert or update or delete
+    on accountant.credit
+    for each row
+    execute procedure "audit".fnCredit_Aud();
