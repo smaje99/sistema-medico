@@ -978,3 +978,42 @@ create or replace trigger trSpecialty_Aud
     on "service".specialty
     for each row
     execute procedure "audit".fnSpecialty_Aud();
+
+create table if not exists "audit".DoctorSpecialty_Aud (
+    doctor_dni bigint,
+    specialty_id uuid,
+    degree_title text,
+    degree_register integer,
+    university text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnDoctorSpecialty_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".doctorspecialty_aud values (
+        new.doctor_dni,
+        new.specialty_id,
+        new.degree_title,
+        new.degree_register,
+        new.university,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trDoctorSpecialty_Aud
+    before insert or update or delete
+    on "service".doctorspecialty
+    for each row
+    execute procedure "audit".fnDoctorSpecialty_Aud();
