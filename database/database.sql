@@ -6,6 +6,8 @@ create database sistema_medico;
 create user administrator with password 'administrator';
 grant all privileges on database sistema_medico to administrator;
 
+-- esquemas
+
 create schema if not exists person;
 create schema if not exists patient;
 create schema if not exists "user";
@@ -29,6 +31,8 @@ on all tables in schema
 to client;
 
 create extension if not exists "uuid-ossp";
+
+-- tablas
 
 create type DocumentType as enum ('R.C.', 'T.I.', 'C.C.', 'C.E.');
 create type BloodType as enum ('AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-');
@@ -407,6 +411,20 @@ create table if not exists patient.MedicineRecord (
     constraint chk_medicine_record_dose check(dose > 0)
 
 );
+
+create table if not exists patient.ServiceRecord (
+    record_id uuid not null,
+    service_id uuid not null,
+    indication text not null,
+
+    constraint pk_service_record primary key (record_id, service_id),
+    constraint fk_record foreign key (record_id)
+        references patient.record (id),
+    constraint fk_service foreign key (service_id)
+        references "service"."service" (id)
+);
+
+-- registros
 
 insert into person.person (
     dni,
