@@ -340,6 +340,17 @@ create table if not exists scheduling.Cancellation (
         references scheduling.appointment (id)
 );
 
+create table if not exists patient.Record (
+    id uuid not null default uuid_generate_v4(),
+    observation text not null,
+    created_at timestamp not null default now(),
+    appointment_id uuid not null,
+
+    constraint pk_record primary key (id),
+    constraint fk_appointment foreign key (appointment_id)
+        references scheduling.appointment (id)
+);
+
 insert into person.person (
     dni,
     "name",
