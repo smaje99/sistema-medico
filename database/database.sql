@@ -1093,3 +1093,38 @@ create or replace trigger trService_Aud
     on "service"."service"
     for each row
     execute procedure "audit".fnService_Aud();
+
+create table if not exists "audit".Exam_Aud (
+    code varchar(5),
+    "name" text,
+    is_active boolean,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnExam_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".exam_aud values (
+        new.cpde,
+        new."name",
+        new.is_active,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trExam_Aud
+    before insert or update or delete
+    on "service".exam
+    for each row
+    execute procedure "audit".fnExam_Aud();
