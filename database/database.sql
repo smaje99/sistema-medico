@@ -431,6 +431,21 @@ create table if not exists accountant.PaymentType (
     constraint pk_payment_type primary key (id)
 );
 
+create table if not exists accountant.Payment (
+    id uuid not null default uuid_generate_v4(),
+    amount decimal not null default 0,
+    is_paid boolean not null default false,
+    created_at timestamp not null default now(),
+    payment_type_id uuid not null,
+    appointment_id uuid not null,
+
+    constraint pk_payment primary key (id),
+    constraint fk_payment_type foreign key (payment_type_id)
+        references accountant.paymenttype (id),
+    constraint fk_appointment foreign key (appointment_id)
+        references scheduling.appointment (id)
+);
+
 -- registros
 
 insert into person.person (
