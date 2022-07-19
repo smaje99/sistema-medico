@@ -393,6 +393,21 @@ create table if not exists patient.ExamRecord (
         references "service".exam (code)
 );
 
+create table if not exists patient.MedicineRecord (
+    record_id uuid not null,
+    medicine_code varchar (10) not null,
+    indication text not null,
+    dose integer not null default 1,
+
+    constraint pk_medicine_record primary key (record_id, medicine_code),
+    constraint fk_record foreign key (record_id)
+        references patient.record (id),
+    constraint fk_medicine foreign key (medicine_code)
+        references "service".medicine (code),
+    constraint chk_medicine_record_dose check(dose > 0)
+
+);
+
 insert into person.person (
     dni,
     "name",
