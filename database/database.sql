@@ -359,7 +359,7 @@ create type BodyPartType as enum ('oral', 'rectal', 'axilar', 'oído', 'piel');
 
 create table if not exists patient.VitalSigns (
     record_id uuid not null,
-    respiration_rate integer not null,
+    respiration_rate integer,
     pulse_rate integer,
     body_part BodyPartType,
     body_temperature integer,
@@ -1617,3 +1617,50 @@ create or replace trigger trRecord_Aud
     on patient.record
     for each row
     execute procedure "audit".fnRecord_Aud();
+
+create table if not exists "audit".VitalSigns_Aud (
+    record_id uuid,
+    respiration_rate integer,
+    pulse_rate integer,
+    body_part BodyPartType,
+    body_temperature integer,
+    systolic integer,
+    diastolic integer,
+    "weight" integer,
+    height integer,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnVitalSigns_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".vitalsigns_aud values (
+        new.record_id,
+        new.respiration_rate,
+        new.pulse_rate,
+        new.body_part,
+        new.body_temperature,
+        new.systolic,
+        new.diastolic,
+        new."weight",
+        new.height,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trVitalSigns_Aud
+    before insert or update or delete
+    on patient.vitalsigns
+    for each row
+    execute procedure "audit".fnVitalSigns_Aud();
