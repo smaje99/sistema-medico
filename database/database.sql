@@ -1286,3 +1286,34 @@ create or replace trigger trSchedule_Aud
     on scheduling.schedule
     for each row
     execute procedure "audit".fnSchedule_Aud();
+
+create table if not exists "audit".Patient_Aud (
+    dni bigint,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPatient_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".patient_aud values (
+        new.dni,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPatient_Aud
+    before insert or update or delete
+    on patient.patient
+    for each row
+    execute procedure "audit".fnPatient_Aud();
