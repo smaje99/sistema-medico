@@ -596,3 +596,70 @@ values
 
 
 insert into accountant.paymenttype ("name") values ('contado'), ('crédito');
+
+-- auditoria
+create schema if not exists "audit";
+
+create table if not exists "audit".Person_Aud (
+    dni integer,
+    "name" text,
+    surname text,
+    "address" text,
+    email text,
+    phone bigint,
+    gender Gender,
+    birthdate date,
+    document_type DocumentType,
+    blood_type BloodType,
+    created_at timestamp,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPerson_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".person_aud values (
+        new.dni,
+        new."name",
+        new.surname,
+        new."address",
+        new.email,
+        new.phone,
+        new.gender,
+        new.birthdate,
+        new.document_type,
+        new.blood_type,
+        new.created_at,
+        user,
+        now(),
+        lower(TG_OP)
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPerson_Aud
+    before insert or update or delete
+    on person.person
+    for each row
+    execute procedure "audit".fnPerson_Aud();
+
+insert into person.person (
+    dni,
+    "name",
+    surname,
+    email,
+    phone,
+    gender,
+    birthdate,
+    document_type,
+    blood_type
+) values
+    (69854723, 'Marcus', 'Brown', 'm.brown@gmail.com', 3458915472, 'M', '1992-11-28', 'C.C.', 'A+');
