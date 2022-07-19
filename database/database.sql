@@ -875,3 +875,40 @@ create or replace trigger trUser_Aud
     on "user"."user"
     for each row
     execute procedure "audit".fnUser_Aud();
+
+create table if not exists "audit".UserPermission_Aud (
+    id uuid,
+    is_active boolean,
+    user_dni bigint,
+    permission_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnUserPermission_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".userpermission_aud values (
+        new.dni,
+        new.is_active,
+        new.user_id,
+        new.permission_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trUserPermission_Aud
+    before insert or update or delete
+    on "user".userpermission
+    for each row
+    execute procedure "audit".fnUserPermission_Aud();
