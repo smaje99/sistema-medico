@@ -1545,3 +1545,38 @@ create or replace trigger trAntecedent_Aud
     on scheduling.antecedent
     for each row
     execute procedure "audit".fnAntecedent_Aud();
+
+create table if not exists "audit".Cancellation_Aud (
+    id uuid,
+    reason text,
+    appointment_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnCancellation_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".cancellation_aud values (
+        new.id,
+        new.reason,
+        new.appointment_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trCancellation_Aud
+    before insert or update or delete
+    on scheduling.cancellation
+    for each row
+    execute procedure "audit".fnCancellation_Aud();
