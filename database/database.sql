@@ -1202,3 +1202,46 @@ create or replace trigger trMedicine_Aud
     on "service".medicine
     for each row
     execute procedure "audit".fnMedicine_Aud();
+
+create table if not exists "audit".Permit_Aud (
+    id uuid,
+    reason text,
+    is_active boolean,
+    "start_date" timestamp,
+    end_date timestamp,
+    created_at timestamp,
+    doctor_dni bigint,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnPermit_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".permit_aud values (
+        new.id,
+        new.reason,
+        new.is_active,
+        new."start_date",
+        new.end_date,
+        new.created_at,
+        new.doctor_dni,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trPermit_Aud
+    before insert or update or delete
+    on scheduling.permit
+    for each row
+    execute procedure "audit".fnPermit_Aud();
