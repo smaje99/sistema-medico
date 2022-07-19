@@ -9,7 +9,7 @@ from core.env import ConnectionOptionsDatabase as db
 
 
 __connection_string = (
-    f'mysql+pymysql://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}'
+    f'postgresql+psycopg2://{db.user}:{db.password}@{db.host}:{db.port}/{db.database}'
 )
 
 __connect_args__ = { 'check_same_thread': False }
