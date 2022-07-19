@@ -799,3 +799,40 @@ create or replace trigger trPermission_Aud
     on "user".permission
     for each row
     execute procedure "audit".fnPermission_Aud();
+
+create table if not exists "audit".RolePermission_Aud (
+    id uuid,
+    is_active boolean,
+    role_id uuid,
+    permission_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnRolePermission_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".rolepermission_aud values (
+        new.id,
+        new.is_active,
+        new.role_id,
+        new.permission_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trRolePermission_Aud
+    before insert or update or delete
+    on "user".rolepermission
+    for each row
+    execute procedure "audit".fnRolePermission_Aud();
