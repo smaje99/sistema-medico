@@ -1050,3 +1050,46 @@ create or replace trigger trOffice_Aud
     on "service".office
     for each row
     execute procedure "audit".fnOffice_Aud();
+
+create table if not exists "audit"."service_aud" (
+    id uuid,
+    "name" text,
+    observation text,
+    cost decimal,
+    service_type ServiceType,
+    is_active boolean,
+    specialty_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnService_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".service_aud values (
+        new.id,
+        new."name",
+        new.observation,
+        new.cost,
+        new.service_type,
+        new.is_active,
+        new.specialty_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trService_Aud
+    before insert or update or delete
+    on "service"."service"
+    for each row
+    execute procedure "audit".fnService_Aud();
