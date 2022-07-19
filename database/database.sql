@@ -1496,7 +1496,7 @@ begin
         new.reason,
         new.is_attending,
         new.patient_id,
-        new.service._id,
+        new.service_id,
         new.schedule_id,
         user,
         now(),
@@ -1956,3 +1956,28 @@ create or replace trigger trFee_Aud
     on accountant.fee
     for each row
     execute procedure "audit".fnFee_Aud();
+
+-- triggers
+create or replace function scheduling.fnAppointment_Update()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    if now()::date > old."date"::date then
+        raise exception 'Past medical appointments cannot be updated';
+    end if;
+
+    return new;
+end
+$$;
+
+create or replace trigger trAppointment_Update
+    after update
+    on scheduling.Appointment
+    for each row
+    execute procedure scheduling.fnAppointment_Update();
+
+update scheduling.appointment
+set is_attending = true
+where id = 'b3030087-f20d-416c-882e-392b06a8f318';
