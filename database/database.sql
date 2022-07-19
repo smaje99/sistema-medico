@@ -1919,3 +1919,40 @@ create or replace trigger trCredit_Aud
     on accountant.credit
     for each row
     execute procedure "audit".fnCredit_Aud();
+
+create table if not exists "audit".Fee_Aud (
+    id uuid,
+    amount decimal,
+    created_at timestamp,
+    credit_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnFee_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".fee_aud values (
+        new.id,
+        new.amount,
+        new.created_at,
+        new.credit_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trFee_Aud
+    before insert or update or delete
+    on accountant.fee
+    for each row
+    execute procedure "audit".fnFee_Aud();
