@@ -1771,3 +1771,38 @@ create or replace trigger trMedicineRecord_Aud
     on patient.medicinerecord
     for each row
     execute procedure "audit".fnMedicineRecord_Aud();
+
+create table if not exists "audit".ServiceRecord_Aud (
+    record_id uuid,
+    service_id uuid,
+    indication text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnServiceRecord_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".servicerecord_aud values (
+        new.record_id,
+        new.service_id,
+        new.indication,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trServiceRecord_Aud
+    before insert or update or delete
+    on patient.servicerecord
+    for each row
+    execute procedure "audit".fnServiceRecord_Aud();
