@@ -1163,3 +1163,42 @@ create or replace trigger trDiagnostic_Aud
     on "service".diagnostic
     for each row
     execute procedure "audit".fnDiagnostic_Aud();
+
+create table if not exists "audit".Medicine_Aud (
+    code varchar(10),
+    "name" text,
+    quantity integer,
+    unit varchar(5),
+    is_active boolean,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnMedicine_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".medicine_aud values (
+        new.code,
+        new."name",
+        new.quantity,
+        new.unit,
+        new.is_active,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trMedicine_Aud
+    before insert or update or delete
+    on "service".medicine
+    for each row
+    execute procedure "audit".fnMedicine_Aud();
