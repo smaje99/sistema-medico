@@ -1664,3 +1664,38 @@ create or replace trigger trVitalSigns_Aud
     on patient.vitalsigns
     for each row
     execute procedure "audit".fnVitalSigns_Aud();
+
+create table if not exists "audit".DiagnosticRecord_Aud (
+    record_id uuid,
+    diagnostic_code varchar(5),
+    observation text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnDiagnosticRecord_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".diagnosticrecord_aud values (
+        new.record_id,
+        new.diagnostic_code,
+        new.observation,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trDiagnosticRecord_Aud
+    before insert or update or delete
+    on patient.diagnosticrecord
+    for each row
+    execute procedure "audit".fnDiagnosticRecord_Aud();
