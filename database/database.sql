@@ -351,6 +351,24 @@ create table if not exists patient.Record (
         references scheduling.appointment (id)
 );
 
+create type BodyPartType as enum ('oral', 'rectal', 'axilar', 'oído', 'piel');
+
+create table if not exists patient.VitalSigns (
+    record_id uuid not null,
+    respiration_rate integer not null,
+    pulse_rate integer,
+    body_part BodyPartType,
+    body_temperature integer,
+    systolic integer,
+    diastolic integer,
+    "weight" integer,
+    height integer,
+
+    constraint pk_vital_signs primary key (record_id),
+    constraint fk_record foreign key (record_id)
+        references patient.record (id)
+);
+
 insert into person.person (
     dni,
     "name",
