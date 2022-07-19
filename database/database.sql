@@ -458,6 +458,17 @@ create table if not exists accountant.Credit (
         references accountant.payment (id)
 );
 
+create table if not exists accountant.Fee (
+    id uuid not null default uuid_generate_v4(),
+    amount decimal not null default 0,
+    created_at timestamp not null default now(),
+    credit_id uuid not null,
+
+    constraint pk_fee primary key (id),
+    constraint fk_credit foreign key (credit_id)
+        references accountant.credit (id)
+);
+
 -- registros
 
 insert into person.person (
