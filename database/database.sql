@@ -1017,3 +1017,36 @@ create or replace trigger trDoctorSpecialty_Aud
     on "service".doctorspecialty
     for each row
     execute procedure "audit".fnDoctorSpecialty_Aud();
+
+create table if not exists "audit".Office_Aud (
+    id uuid,
+    "name" text,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnOffice_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".office_aud values (
+        new.id,
+        new."name",
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trOffice_Aud
+    before insert or update or delete
+    on "service".office
+    for each row
+    execute procedure "audit".fnOffice_Aud();
