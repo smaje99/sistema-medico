@@ -1469,3 +1469,46 @@ create or replace trigger trPatientEntity_Aud
     on patient.patiententity
     for each row
     execute procedure "audit".fnPatientEntity_Aud();
+
+create table if not exists "audit".Appointment_Aud (
+    id uuid,
+    "date" timestamp,
+    reason text,
+    is_attending boolean,
+    patient_id uuid,
+    service_id uuid,
+    schedule_id uuid,
+
+    "user" varchar(50) not null,
+    logged_at timestamp not null,
+    process text not null
+);
+
+create or replace function "audit".fnAppointment_Aud()
+    returns trigger
+    language plpgsql
+    as
+$$
+begin
+    insert into "audit".appointment_aud values (
+        new.id,
+        new."date",
+        new.reason,
+        new.is_attending,
+        new.patient_id,
+        new.service._id,
+        new.schedule_id,
+        user,
+        now(),
+        TG_OP
+    );
+
+    return new;
+end
+$$;
+
+create or replace trigger trAppointment_Aud
+    before insert or update or delete
+    on scheduling.appointment
+    for each row
+    execute procedure "audit".fnAppointment_Aud();
