@@ -1981,3 +1981,42 @@ create or replace trigger trAppointment_Update
 update scheduling.appointment
 set is_attending = true
 where id = 'b3030087-f20d-416c-882e-392b06a8f318';
+
+create or replace function scheduling.fnAppointment_Date()
+    returns trigger
+    language plpgsql
+    as
+$$
+declare
+    start_permit timestamp;
+    end_permit timestamp;
+begin
+    select
+        "start_date" into start_permit,
+        end_date into end_permit
+    from
+        scheduling.permit
+    where
+        doctor_dni = (
+            select distinct
+                doctor_dni
+            from
+                scheduling.schedule
+            where
+                id = new.schedule_id
+        )
+        and is_active = true;
+
+    if start_permit is not null and end_permit is not null and (new."date" between start_permit and end_permit) then
+        raise exception 'doctor not available on that date';
+    end if;
+
+    return new;
+end
+$$;
+
+create or replace trigger trAppointment_Date
+    before insert or update
+    on scheduling.Appointment
+    for each row
+    execute procedure scheduling.fnAppointment_Date();
