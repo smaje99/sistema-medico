@@ -5,6 +5,6 @@ para una IPS con la gestión de pacientes, médicos, usuarios, citas médicas, h
 clínico, y parte del sistema contable.
 
 Este proyecto será construido con las siguientes tecnologías:
-- *MySQL* y *MongoDB* para la construcción y administración de la base de datos y los archivos
-- *Python* con *FastAPI* y *¨SQLModel* para la gestión de servicios y construcción del *backend*
+- *PostgreSQL* y *MongoDB* para la construcción y administración de la base de datos y los archivos
+- *Python* con *FastAPI*, *SQLAlchemy* y *Beanie* para la gestión de servicios y construcción del *backend*
 - *ReactJS* para construcción de las vistas y el manejo del *frontend*
