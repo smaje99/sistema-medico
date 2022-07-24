@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from core.types import BloodType, DocumentType, Gender
 from database import Base
 
-from model.patient import Patient
+from models.patient import Patient
 
 
 class Person(Base):
