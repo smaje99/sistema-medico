@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class DocumentType(str, Enum):
-    RC = 'R.C.'
-    TI = 'T.I.'
-    CC = 'C.C.'
-    CE = 'C.E.'
+    CIVIL_REGISTRATION = 'R.C.'
+    IDENTITY_CARD = 'T.I.'
+    CITIZENSHIP_CARD = 'C.C.'
+    FOREIGN_CARD = 'C.E.'

@@ -2,11 +2,11 @@ from enum import Enum
 
 
 class BloodType(str, Enum):
-    ABp = 'AB+'
-    ABa = 'AB-'
-    Ap = 'A+'
-    Aa = 'A-'
-    Bp = 'B+'
-    Ba = 'B-'
-    Op = 'O+'
-    Oa = 'O-'
+    AB_POSITIVE = 'AB+'
+    AB_NEGATIVE = 'AB-'
+    A_POSITIVE = 'A+'
+    A_NEGATIVE = 'A-'
+    B_POSITIVE = 'B+'
+    B_NEGATIVE = 'B-'
+    O_POSITIVE = 'O+'
+    O_NEGATIVE = 'O-'
