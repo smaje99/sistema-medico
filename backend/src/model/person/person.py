@@ -1,7 +1,10 @@
 from sqlalchemy import BigInteger, Column, DateTime, Enum, Text
+from sqlalchemy.orm import relationship
 
 from core.types import BloodType, DocumentType, Gender
 from database import Base
+
+from model.patient import Patient
 
 
 class Person(Base):
@@ -21,5 +24,7 @@ class Person(Base):
         Enum(BloodType, values_callable=lambda obj: [e.value for e in obj]),
         nullable=False
     )
+
+    patient = relationship(Patient, back_populates='person', uselist=False)
 
     __table_args__ = { 'schema': 'person' }
