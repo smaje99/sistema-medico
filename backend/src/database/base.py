@@ -1,3 +1,4 @@
+from sqlalchemy import inspect
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 
 
@@ -10,3 +11,9 @@ class Base:
         """Generate __tablename__ automatically
         """
         return cls.__name__.lower()
+
+    def _asdict(self):
+        return {
+            obj.key: getattr(self, obj.key)
+            for obj in inspect(self).mapper.column_attrs
+        }
