@@ -14,7 +14,10 @@ class Person(Base):
     address = Column(Text)
     email = Column(Text, nullable=False)
     phone = Column(BigInteger, nullable=False)
-    gender = Column(Enum(Gender), nullable=False)
+    gender = Column(
+        Enum(Gender, values_callable=lambda obj: [e.value for e in obj]),
+        nullable=False
+    )
     birthdate = Column(DateTime, nullable=False)
     document_type = Column(
         Enum(DocumentType, values_callable=lambda obj: [e.value for e in obj]),
